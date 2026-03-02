@@ -1,11 +1,13 @@
-// middleware/upload.js - Multer configuration for file upload
+// middleware/upload.js - Fixed for Vercel
 
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+
+const uploadDir = '/tmp/uploads';
+
 // Create uploads directory if it doesn't exist
-const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
