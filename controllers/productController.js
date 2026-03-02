@@ -12,31 +12,22 @@ exports.createProduct = async (req, res) => {
     try {
         const { name, description, price, stock, category } = req.body;
 
-        // Validation
         if (!name || !description || !price || stock === undefined) {
-            // If image was uploaded but validation fails, delete it
-            if (req.file) {
-                fs.unlinkSync(req.file.path);
-            }
             return res.status(400).json({
                 success: false,
                 message: 'Please provide all required fields'
             });
         }
 
-        // Get user who is adding product
         const user = await User.findById(req.userId);
 
-        // Handle image path
+        // 🔥 CLOUDINARY MAGIC - req.file.path me Cloudinary URL aayega
         let imagePath = 'https://via.placeholder.com/300x300?text=No+Image';
         
         if (req.file) {
-            // Create full URL for the image
-            const baseUrl = `${req.protocol}://${req.get('host')}`;
-            imagePath = `${baseUrl}/uploads/${req.file.filename}`;
+            imagePath = req.file.path;  // Cloudinary ka URL!
         }
 
-        // Create product
         const product = await Product.create({
             name,
             description,
@@ -55,10 +46,6 @@ exports.createProduct = async (req, res) => {
         });
 
     } catch (error) {
-        // If error occurs, delete uploaded file
-        if (req.file) {
-            fs.unlinkSync(req.file.path);
-        }
         console.error('Create product error:', error);
         res.status(500).json({
             success: false,
