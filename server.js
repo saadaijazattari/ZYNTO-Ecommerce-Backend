@@ -39,8 +39,8 @@ mongoose.connect(MONGODB_URI)
     .then(() => console.log('✅ MongoDB Connected Successfully'))
     .catch((err) => console.log('❌ MongoDB Connection Error:', err));
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//     console.log(`✅ Server running on port http://localhost:${PORT}`);
-// });
-module.exports = app; // Export karo for testing purposes
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✅ Server running on port http://localhost:${PORT}`);
+});
+// module.exports = app; // Export karo for testing purposes
